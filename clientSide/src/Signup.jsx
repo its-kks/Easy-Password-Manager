@@ -75,7 +75,7 @@ export function Signup() {
                 })
             });
             if(response.ok){
-               navigate("/login");
+               navigate("/");
             }
             else{
                 const errorData = await response.json();
