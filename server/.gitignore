@@ -1,0 +1,5 @@
+.env
+./client/.env
+../password\ manger\ client/.env
+./clientSide/.env
+./server/.env

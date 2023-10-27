@@ -1,0 +1,107 @@
+.input {
+  background: #3B3B3B;
+  border: 2px solid grey;
+  padding: 15px;
+  border-radius: 5px;
+  outline: none;
+  color: white;
+  margin: 5px;
+}
+
+.input:focus {
+  background: white;
+  color: black;
+}
+.flexbox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body{
+  margin: 0px;
+  background: rgb(20, 20, 20);
+}
+.button {
+  border: 2px solid grey;
+  padding: 15px;
+  border-radius: 5px;
+  outline: none;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.loginButton {
+  background: #029c59;
+  color: white;
+}
+
+.loginButton:active {
+  background: #017141;
+}
+
+.signupButton {
+  background: #3B3B3B;
+  color: white;
+}
+
+.signupButton:active {
+  background: #252525;
+}
+
+.copyInput {
+  background: #3B3B3B;
+  border: 2px solid rgb(29, 157, 255);
+  padding: 10px;
+  border-radius: 5px 0px 0px 5px;
+  outline: none;
+  cursor: pointer;
+  color: white;
+}
+
+.copyButton{
+  border: 2px solid grey;
+  border-radius: 0px 5px 5px 0px;
+  background-color: #696969;
+  padding: 9px;
+}
+.copyButton:active{
+  background-color: #3B3B3B;
+}
+
+.passwordBox{
+  border: 2px solid rgb(0, 142, 251);
+  padding: 5px;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.deleteButton {
+  background: #9c0202;
+  color: white;
+}
+
+.deleteButton:active {
+  background: #5e0000;
+}
+
+.miniCopyButton{
+  border: 2px solid rgb(61, 61, 61);
+  border-radius: 5px;
+  background-color: #000000;
+  padding: 9px;
+  color: white;
+  cursor: pointer;
+  margin: 2px;
+}
+.miniCopyButton:active{
+  border-color: #ffffff;
+}
+.crossButton{
+  background: none;
+  border: none;
+  color:#3B3B3B;
+  cursor: pointer;
+}
+.crossButton:hover{
+  color: #ffffff;
+}
