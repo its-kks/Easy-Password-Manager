@@ -6,7 +6,7 @@ otpObject = {
         let otp = Math.floor(Math.random()*1000000);
         otp = otp.toString();
         while(otp.length<6){
-            otp = "O" + otp;
+            otp = "0" + otp;
         }
         this.users[email] = {otp,timestamp:Date.now()};
         return otp;

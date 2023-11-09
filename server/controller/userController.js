@@ -132,17 +132,21 @@ async function sendOTPEmail(email, otp) {
 //@route GET /api/users/salt
 //@access public
 async function getSalt(req, res) {
-  const {email} = req.body;
-  if(!email){
-    res.status(400);
-    throw new Error("Email is a mandatory field");
+  try {
+    const { email } = req.body;
+    if (!email) {
+      res.status(400).json({ message: "Email is a mandatory field" });
+      return;
+    }
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(400).json({ message: "User does not exist" });
+      return;
+    }
+    res.status(200).json({ salt: user.salt });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-  const user = await User.findOne({ email });
-  if(!user){
-    res.status(400);
-    throw new Error("User does not exist");
-  }
-  res.status(200).json({salt:user.salt});
 }
 
 module.exports = { registerUser, loginUser, getCurrentUser, getOTP, getSalt };

@@ -62,6 +62,7 @@ export function Passwords({}) {
   }
   useEffect(() => {
     fetchPasswords();
+    console.log(credentialArray);
   }, []);
 
   //adding password to server
@@ -165,7 +166,7 @@ export function Passwords({}) {
                     credential.password,
                     cookieValues.password
                   ).toString(CryptoJS.enc.Utf8)}
-                  id={credential._id}
+                  key={credential._id}
                   uname={credential.username}
                   URL={credential.website}
                 />

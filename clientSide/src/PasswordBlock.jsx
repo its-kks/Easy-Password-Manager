@@ -3,7 +3,7 @@ import { InputWithCopy } from "./InputWithCopy";
 import { Button } from "./Button";
 import "./Login.css";
 
-export function PasswordBlock({ id, pass, uname, URL }) {
+export function PasswordBlock({ key, pass, uname, URL }) {
   const [passwords, setPassword] = useState(pass);
   const [username, setUsername] = useState(uname);
   const [url, setUrl] = useState(URL);
