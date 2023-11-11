@@ -53,6 +53,7 @@ const getPassword = asyncHandler(async (req,res)=>{
 //@route DELETE /api/passwords/id
 //@access private
 const deletePassword = asyncHandler(async (req,res)=>{
+
     const password = await Password.findById(req.params.id);
     if(!password){
         res.status(404);

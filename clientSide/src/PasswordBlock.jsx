@@ -27,62 +27,7 @@ export function PasswordBlock({id,credentials,setCredentials}) {
   const url = credentials[id].website;
 
   //update data in database 
-/*
-const handleUpdate = async (obj, usernameTD, passwordTD, websiteTD, updateTD) => {
-  const id = obj.id;
-  const username = usernameTD.querySelector('input').value;
-  const password = passwordTD.querySelector('input').value;
-  const website = websiteTD.querySelector('input').value;
-
-  console.log(userName);
-  console.log(password);
-  console.log(website);
   
-  if(username && password && website){
-    // Set the new text values
-    usernameTD.textContent = username;
-    passwordTD.textContent = password;
-    websiteTD.textContent = website;
-    try{
-      const response = await fetch(`/api/passwords/${id}`,{
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            username,
-            website,
-            password,
-            })
-        });
-        if(!response.ok){
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Failed to update password');
-        }
-        const updatedPassword = await response.json();
-        const tickIcon = updateTD.querySelector('i');
-
-        //updating the data in the table
-        tickIcon.remove();
-
-        const updateIcon = document.createElement("i");
-        updateIcon.classList.add("fas", "fa-edit", "update-icon");
-        updateIcon.addEventListener('click', () => changeToUpdate(obj, usernameTD, passwordTD, websiteTD, updateTD));
-        updateTD.appendChild(updateIcon);
-        console.log('Password updated succesfull',updatedPassword);
-
-
-    } catch (error){
-      console.error('Error updating password:', error.message);
-    }
-  }
-  else{
-    alert('All fields are mandatory');
-  }
-};
-*/
-
   async function handleUpdate(){
     if(username && passwords && url){
       try{
@@ -113,6 +58,57 @@ const handleUpdate = async (obj, usernameTD, passwordTD, websiteTD, updateTD) =>
     }
     else{
       alert("No field can be empty!");
+    }
+  }
+
+  //delete credentials
+/*
+const handleDelete = async (obj,row) => {
+  const id = obj.id;
+  try {
+    const response = await fetch(`/api/passwords/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      alert(errorData.message);
+      throw new Error(errorData.message || 'Failed to delete Password');
+    }
+
+    const deletedPassword = await response.json();
+    row.remove();
+    console.log('Password deleted successfully:', deletedPassword);
+
+  } catch (error) {
+    console.log('Error deleting password', error.message);
+  }
+};
+*/
+  async function deleteCred(){
+    try{
+      const response = await fetch(`${server}api/passwords/${id}`,{
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${cookieValues.accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if(!response.ok){
+        const errorData = await response.json();
+        alert(errorData.message);
+        throw new Error(errorData.message || 'Failed to delete credentials');
+      }
+
+      const delPass = await response.json();
+    }
+    catch(err){
+      alert('Error deleting password:',err.message);
     }
   }
 
@@ -183,7 +179,17 @@ const handleUpdate = async (obj, usernameTD, passwordTD, websiteTD, updateTD) =>
                     console.log("Editing");
                   }}
                 />
-                <Button name="Delete" className="deleteButton button" />
+                <Button 
+                  name="Delete" 
+                  className="deleteButton button" 
+                  onClick={()=>{
+                    deleteCred();
+                    setCredentials(()=>{
+                      delete credentials[id];
+                      return {...credentials};
+                    });
+                  }}
+                />
               </>
             ) : (
               <Button
