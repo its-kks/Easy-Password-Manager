@@ -6,7 +6,6 @@ const CryptoJS = require('crypto-js');
 //@route GET /api/passwords
 //@access private
 const getPasswords = asyncHandler(async (req, res) => {
-    // Retrieve the master password from the session
     // Get all encrypted passwords for the current user
     const passwords = await Password.find({ user_id: req.user.id });
 
@@ -24,7 +23,6 @@ const createPassword = asyncHandler(async (req, res) => {
     }
   
     try {
-      // const encryptedPassword = CryptoJS.AES.encrypt(password, masterPassword).toString();
       const userPassword = await Password.create({
         username,
         website,
@@ -75,34 +73,24 @@ const deletePassword = asyncHandler(async (req,res)=>{
 //@access private
 const updatePassword = asyncHandler(async (req, res) => {
   // Check if password is present
-  const password = await Password.findById(req.params.id);
-  if (!password) {
+  const data = await Password.findById(req.params.id);
+  if (!data) {
     res.status(404);
-    throw new Error("Password not found");
+    throw new Error("Credentials not found");
   }
 
   // Check if the password belongs to the current user
-  if (password.user_id.toString() !== req.user.id) {
+  if (data.user_id.toString() !== req.user.id) {
     res.status(403);
     throw new Error("Password not found");
   }
 
-  const { username, website, password: newPassword } = req.body;
-
-  const masterPassword = req.session.masterPassword;
-  let encryptedPassword;
-  if (newPassword) {
-    if (!masterPassword) {
-      res.status(401);
-      throw new Error("Master password not found in the session.");
-    }
-    encryptedPassword = CryptoJS.AES.encrypt(newPassword, masterPassword).toString();
-  }
+  const { username, website, password } = req.body;
 
   const updatedPassword = {
     username,
     website,
-    ...(encryptedPassword && { password: encryptedPassword }),
+    password
   };
 
   try {

@@ -2,13 +2,13 @@ import { useState } from 'react';
 import './Login.css';
 import { FiCopy } from 'react-icons/fi';
 
-export function InputWithCopy({ value, type, setValue, editing }) {
+export function InputWithCopy({ type, setValue, editing, iname, id, credentials,setCredentials }) {
   const [copy, setCopy] = useState(false);
   const [inputType, setInputType] = useState(type);
 
   const handleCopyClick = () => {
-    navigator.clipboard.writeText(value);
-    const currVal = value;
+    navigator.clipboard.writeText(credentials[id][iname]);
+    const currVal = credentials[id][iname];
     setCopy(true);
     setValue('Copied!');
     setInputType('text');
@@ -24,11 +24,15 @@ export function InputWithCopy({ value, type, setValue, editing }) {
       <input 
         type={inputType} 
         className='copyInput' 
-        value={value} onChange={(event)=>{
-            if(editing){
-                setValue(event.target.value)
-            }
-        }}/>
+        value={credentials[id][iname]} 
+        onChange={(event)=>{
+          if(editing){
+            const newCredentials = { ...credentials };
+            newCredentials[id] = { ...newCredentials[id], [iname]: event.target.value };
+            setCredentials(newCredentials);
+          }
+        }}
+      />
 
       <button className='copyButton' onClick={handleCopyClick}>
         <FiCopy />

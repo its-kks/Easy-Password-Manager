@@ -40,6 +40,20 @@ export function Passwords({}) {
     }
     , 2000);
   }
+  //restructure data and save in credentialArray
+  function restructureData(data){
+    const list = {}
+    for(let pass of data){
+      // decrypt password
+      let decPass = CryptoJS.AES.decrypt(pass.password,cookieValues.password).toString(CryptoJS.enc.Utf8);
+      list[pass._id]={
+        password:decPass,
+        username:pass.username,
+        website:pass.website
+      }
+    }
+    setCredentialArray(list);
+  }
   //fetching passwords from server
   async function fetchPasswords() {
     try {
@@ -55,25 +69,21 @@ export function Passwords({}) {
         throw new Error("Network response was not ok");
       }
 
-      setCredentialArray(data);
+      //decrypt all the passwords
+
+      restructureData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
   useEffect(() => {
     fetchPasswords();
-    console.log(credentialArray);
   }, []);
 
   //adding password to server
   async function handleAdd() {
     const masterPassword = cookieValues.password;
     const salt = cookieValues.salt;
-
-    setCredentialArray([
-      ...credentialArray,
-      { username: uname, password: pass, website: URL },
-    ]);
 
     const username = uname;
     const password = CryptoJS.AES.encrypt(pass, masterPassword).toString();
@@ -94,7 +104,7 @@ export function Passwords({}) {
         throw new Error("Failed to add password");
       }
       const data = await response.json();
-      console.log("Password added", data);
+      fetchPasswords();
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -160,17 +170,17 @@ export function Passwords({}) {
                 alignItems: "flex-start",
               }}
             >
-              {credentialArray.map((credential) => (
-                <PasswordBlock
-                  pass={CryptoJS.AES.decrypt(
-                    credential.password,
-                    cookieValues.password
-                  ).toString(CryptoJS.enc.Utf8)}
-                  key={credential._id}
-                  uname={credential.username}
-                  URL={credential.website}
-                />
-              ))}
+              {
+                Object.keys(credentialArray).map(function (id){
+                  return (
+                    <PasswordBlock
+                      id={id}
+                      credentials={credentialArray}
+                      setCredentials={setCredentialArray}
+                    />
+                  );
+                })
+              }
             </div>
           </SimpleBar>
         </div>
