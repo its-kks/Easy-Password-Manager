@@ -1,6 +1,6 @@
 # Easy-Password-Manager 🔐
 - A simple password password manager with CRUD functionalities. 
-- User's data is end to end encrypted and can only be accessed using master password.🔒
+- User's data is end-to-end encrypted and can only be accessed using master password.🔒
 - Frontend is built using React native with the help of Vite Bundler 📱
 - Backend is written in Node.JS and Express.JS 🚀
 - OTP based email verification is also added using Mailjet API 📧✨
