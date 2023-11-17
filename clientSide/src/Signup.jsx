@@ -55,7 +55,7 @@ export function Signup() {
         }
     }
     function handleLogin(){
-        navigate('/login')
+        navigate('/')
     }
 
     async function handleVerify(){
